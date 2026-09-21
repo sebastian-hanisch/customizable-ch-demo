@@ -1,5 +1,7 @@
 # Customizable Contraction Hierarchies – Ordnung einmal, Kosten je Verkehrslage – Streamlit-Demo
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-customizable-ch-demo.streamlit.app/)**
+
 Elftes Stück der Kürzeste-Wege-Linie der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning", Kind von [Contraction Hierarchies](../contraction-hierarchies-demo):
 anders als die Fall-Demos im Portfolio (ein Anwendungsfall, mehrere Verfahren im Vergleich) zeigt diese Demo **ein** Verfahren – die **Customizable Contraction Hierarchy (CCH)** – an einem wachsenden Beispiel.
 Eine Contraction Hierarchy ist schnell, aber **an ihre Kosten gebunden**: welche Abkürzungen entstehen, entscheidet die Zeugensuche, und die hängt von den Kosten ab. Ändert sich der Verkehr, ist die Hierarchie veraltet. Die CCH trennt beides: **Ordnung** und **Zusammenziehen** hängen nur von der
