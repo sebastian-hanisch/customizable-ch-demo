@@ -25,6 +25,7 @@ from cc_presets import (
     init_session_state_defaults,
     load_permalink_settings,
     randomize_seed,
+    seed_widget,
     sync_query_params,
 )
 from cc_scenario import make_network
@@ -124,26 +125,32 @@ with st.sidebar:
                          help="Welche Knoten oben stehen. Die Antworten hängen nicht davon ab - nur die Zahl der Kanten und der Dreiecke. Kanten im 20 × 20-Stadtnetz (Mittel über fünf Netze): 4 358 mit der Verschachtelten Zerlegung, 3 530 nach kleinstem Grad, 11 646 mit der Ordnung der Contraction Hierarchy. "
                               "Im Zufallsnetz mit 200 Knoten: 3 390 / 904 / 1 225 - dort taugt eine Zerlegung nach Koordinaten nichts, weil die Lage der Knoten nichts über das Netz sagt.")
     if net_key == "city":
+        seed_widget("side_slider")
         side = st.slider("Kreuzungen je Seite", *bounds("side_slider"), key="side_slider",
                          help="Größe des Rasters: n = Seite² Knoten. Kanten der CCH (Verschachtelte Zerlegung, Mittel über fünf Netze) bei 6 / 10 / 14 / 20 Kreuzungen je Seite: 153 / 663 / 1 674 / 4 358; die Contraction Hierarchy braucht dort 95 / 335 / 776 / 1 766.")
         st.session_state[KEPT["side_slider"]] = side
     else:
         side = int(st.session_state.get(KEPT["side_slider"], C.DEFAULT_SIDE))
     if net_key == "random":
+        seed_widget("nodes_slider")
         nodes = st.slider("Knoten", *bounds("nodes_slider"), key="nodes_slider", step=10, help="Anzahl der Knoten n; höchstens 200, weil eine schlechte Ordnung im Zufallsnetz schnell zu sehr vielen Kanten führt.")
         st.session_state[KEPT["nodes_slider"]] = nodes
+        seed_widget("degree_slider")
         degree = st.slider("Mittlerer Grad", *bounds("degree_slider"), key="degree_slider", step=0.5, help="Kanten je Knoten.")
         st.session_state[KEPT["degree_slider"]] = degree
     else:
         nodes = int(st.session_state.get(KEPT["nodes_slider"], C.DEFAULT_NODES))
         degree = float(st.session_state.get(KEPT["degree_slider"], C.DEFAULT_DEGREE))
     if net_key in ("city", "random"):
+        seed_widget("traffic_slider")
         traffic = st.slider("Straßen im Stau [%]", *bounds("traffic_slider"), key="traffic_slider", step=5,
                             help="Dieser Anteil der Straßen wird dreimal so teuer (beide Richtungen). Anteil falscher Antworten einer alten Contraction Hierarchy im 20 × 20-Stadtnetz (Mittel über fünf Netze) bei 1 / 2 / 5 / 10 / 20 / 50 %: 7 / 22 / 45 / 69 / 86 / 98 %. Mit 0 ändert sich nichts.")
         st.session_state[KEPT["traffic_slider"]] = traffic
+        seed_widget("distance_slider")
         distance = st.slider("Entfernung des Paares [Perzentil]", *bounds("distance_slider"), key="distance_slider", step=5,
                              help="Das Ziel liegt so weit vom Start entfernt, wie es dem Perzentil aller Entfernungen von diesem Start entspricht: 0 = der nächste Knoten, 100 = der am weitesten entfernte.")
         st.session_state[KEPT["distance_slider"]] = distance
+        seed_widget("seed_input")
         seed = st.number_input("Zufalls-Seed", *bounds("seed_input"), key="seed_input", step=1)
         st.session_state[KEPT["seed_input"]] = seed
         st.button("🎲 Neues Netz generieren", width="stretch", on_click=randomize_seed, help="Würfelt einen neuen Zufalls-Seed für das Netz.")
